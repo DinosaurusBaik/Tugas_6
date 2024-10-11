@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page with Cookies</title>
+    <script>
+        function setCookie(name, value, days) {
+            const d = new Date();
+            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+            let expires = "expires=" + d.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        function getCookie(name) {
+            let cookieArr = document.cookie.split(';');
+            for (let i = 0; i < cookieArr.length; i++) {
+                let cookie = cookieArr[i].trim();
+                if (cookie.indexOf(name + "=") == 0) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return "";
+        }
+
+        function checkCookie() {
+            let username = getCookie("username");
+            if (username != "") {
+                document.getElementById("welcome-message").innerHTML = "Welcome back, " + username + "!";
+            } else {
+                username = prompt("Please enter your name:");
+                if (username != "" && username != null) {
+                    setCookie("username", username, 7);
+                    document.getElementById("welcome-message").innerHTML = "Welcome, " + username + "!";
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="checkCookie()">
+    <h1 id="welcome-message">Welcome to our website!</h1>
+</body>
+</html>
